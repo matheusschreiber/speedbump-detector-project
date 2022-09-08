@@ -289,8 +289,8 @@ def process_img(target, template, template_mask, probabilities_vector, positions
         p[0] = array[0]
         p[1] = array[1]
 
-        p[0] = (p[0] + center[0])
-        p[1] = (p[1] + center[1])
+        p[0] = (int)(p[0] + center[0])
+        p[1] = (int)(p[1] + center[1])
 
     return target, {
         'xmin': x0,
