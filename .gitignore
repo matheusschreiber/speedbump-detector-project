@@ -7,4 +7,9 @@ cache
 imgs/
 *.json
 *.csv
+*.pkl
+detectron-python-env/
+*.jpg
+*.ppm
+output/
 
