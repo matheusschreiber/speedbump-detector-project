@@ -226,7 +226,7 @@ def process_img(target, template, template_mask, probabilities_vector, positions
     x1 = x0 + template_w
     y1 = y0 + template_h
 
-    if x1 >= target_w and position_is_centered or y1 >= target_h and position_is_centered:
+    if (x1 >= target_w and position_is_centered) or (y1 >= target_h and position_is_centered):
         return target, None, scale, data
     if x1 >= target_w:
         diff = x1 - target_w + 1
