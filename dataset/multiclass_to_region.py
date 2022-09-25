@@ -52,7 +52,7 @@ outputs = {
   "via_region_data_val":{}
 }
 
-train = 7
+train = 140
 total_images = len(os.listdir('./imgs'))
 print(f'Generating {train} train images and {total_images - train} validation images')
 
@@ -85,10 +85,10 @@ for image in data:
   pointsY = []
 
   for coord in range(0, len(image[1:-1]), 2):
-    pointsX.append(image[coord+1])
+    pointsX.append((int)(image[coord+1]))
 
   for coord in range(1, len(image[1:-1]), 2):
-    pointsY.append(image[coord+1])
+    pointsY.append((int)(image[coord+1]))
 
   regClass = Region("polygon", pointsX, pointsY,"")
 
