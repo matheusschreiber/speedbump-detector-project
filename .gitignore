@@ -11,5 +11,6 @@ imgs/
 detectron-python-env/
 *.jpg
 *.ppm
+*.png
 output/
 
