@@ -56,10 +56,6 @@ def scaleImages():
       else:
         scaleFactor = (int)((Y_MIN/im.shape[1]) * im.shape[0])
         Image.open(f"raw_bgs/{name}").resize((Y_MIN, scaleFactor)).save(f"bgs/{name}")
-        
-    
-  
-
 
 
 if __name__ == '__main__':

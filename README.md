@@ -34,7 +34,7 @@ In order to use the COCO images, is necessary to pre filter them, with scaling t
 
 > [More info about filter process](/dataset_mobile/FILTER.md)
 
-In total, after filtering, was used more than 1400 images, that generated 1264 samples
+In total, after filtering, was used more than 1400 images, that generated 1264 samples.
 
 ### Templates
 
@@ -58,12 +58,37 @@ A total of 14 templates from speed bumps where used for this dataset creation, a
 
 ### Generating overlapped images for training
 
+In order to generate dataset, its necessary to check if bgs (targets) and templates are OK to go. Specify the paths for these two and for the output, alogside the number of samples with the command:
+
+```bash
+python3 generate_dataset.py --bgs-path <path> --templates-path <path> --out-path <path> --total-images <number>
+
+#ex:
+python3 generate_dataset.py --bgs-path bgs --templates-path templates --out-path output --total-images 1500
+```
+
+Due to the random positioning of templates, it may take a while to generate all the samples.
+
+### Split dataset onto train, test and validation
+
+A module built for splitting the recent generated dataset is available on `split_dataset.py`, where must be setted the speed bump sign threshold (last specific sb sign ppm file, to separate from other signs), train amount, test amount and validation test amount. These last three must be provided in percentage (decimal). 
+
+```py
+SPEED_BUMP_THRESHOLD=14 # last sb sign is 0014.ppm
+TRAIN_AMOUNT=.8         # 80%
+TEST_AMOUNT=.1          # 10%
+VAL_AMOUNT=.1           # 10%
+```
+
+A full log of result quantities is displayed on console.
+
 ## Mobile Tensorflow Lite
 
 > [Tensorflow Lite 2 colab](https://colab.research.google.com/drive/1D2elywD2a8bsWZPGSxYv3RZKiP_h1jLR#scrollTo=Gb7qyhNL1yWt) for GPU access to train the model
 
 ## First conditions
 
+- Samples: 150
 - Epochs: 50
 - Batch size: 8
 - AP: 0.7478128 (74%) 
@@ -71,6 +96,7 @@ A total of 14 templates from speed bumps where used for this dataset creation, a
 
 ## Best conditions so far
 
+- Samples: __
 - Epochs: __
 - Batch size: __
 - AP: __
