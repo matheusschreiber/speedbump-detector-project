@@ -30,7 +30,11 @@ The dataset is built merging templates and COCO (Common Objects in Context) imag
 
 > [Instructions on how to use the script on COCO](/script_coco/COCO_GETTING_STARTED.md)
 
-In order to use the COCO images, is necessary to pre filter them, with scaling to fit a dimensions bound. The current bound is set to 640 pixels minimum on both dimensions. Those images that are too tiny get discarted.
+In order to use the COCO images, is necessary to pre filter them, with scaling to fit a dimension bound. The current bound is set to 640 pixels minimum on both dimensions. Images too tiny get discarted.
+
+> [More info about filter process](/dataset_mobile/FILTER.md)
+
+In total, after filtering, was used more than 1400 images, that generated 1264 samples
 
 ### Templates
 

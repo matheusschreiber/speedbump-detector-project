@@ -396,7 +396,7 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
         img = cv2.imread(img_path)
         binary_line = f"{img_out_path},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},SpeedBumpSign"        
         # multiclass_line = f"{img_out_path},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},{bbox['category']}"        
-        multiclass_line = f"{img_path},{bbox['category']},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},{bbox['xmax']/img.shape[1]:.4f},,,{bbox['ymax']/img.shape[0]:.4f},,"        
+        multiclass_line = f"{img_out_path},{bbox['category']},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},,,{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},,"        
         binary_annotation_lines.append(binary_line)
         multiclass_annotation_lines.append(multiclass_line)
 
@@ -426,12 +426,9 @@ def parse_args():
 
 if __name__ == '__main__':
 
-    i=0
-
-    if os.path.isdir('output'):
-        shutil.rmtree('output')
-
     args = parse_args()
+    
+    if os.path.isdir(args.out_path): shutil.rmtree(args.out_path)
     targets_path = args.targets_path
     templates_path = args.templates_path
 
@@ -441,7 +438,7 @@ if __name__ == '__main__':
     os.makedirs(images_out_path)
     os.makedirs(data_out_path)
 
-    shutil.copyfile(os.path.realpath(__file__), os.path.join(args.out_path, 'generate_dataset.py'))
+    # shutil.copyfile(os.path.realpath(__file__), os.path.join(args.out_path, 'generate_dataset.py'))
 
     all_img_names = os.listdir(targets_path)
     probabilities_vector = hc_probabilties_vector((640, 640))

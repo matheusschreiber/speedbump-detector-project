@@ -63,5 +63,5 @@ def scaleImages():
 
 
 if __name__ == '__main__':
-  reportImages()
-  # scaleImages()
+  # reportImages()
+  scaleImages()
