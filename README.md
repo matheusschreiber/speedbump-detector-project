@@ -30,16 +30,27 @@ The dataset is built merging templates and COCO (Common Objects in Context) imag
 
 > [Instructions on how to use the script on COCO](/script_coco/COCO_GETTING_STARTED.md)
 
+In order to use the COCO images, is necessary to pre filter them, with scaling to fit a dimensions bound. The current bound is set to 640 pixels minimum on both dimensions. Those images that are too tiny get discarted.
+
 ### Templates
 
 The template images where acquired via public access, and have the following properties:
+
+#### Speed bump sign 
 
 - Dimensions: 70x70 pixels
 - Color: yellow/orange
 - Shape: rectangle/diamond
 - File: ppm (Portable Pixmap Format)
 
-A total of 14 templates where used for this dataset creation
+#### Othe types of signs
+
+- Dimensions: 70x70 pixels
+- Color: white/red
+- Shape: round/octagonal
+- File: ppm (Portable Pixmap Format)
+
+A total of 14 templates from speed bumps where used for this dataset creation, alogside the other types of signs, it sum up to 29 different templates.
 
 ### Generating overlapped images for training
 
