@@ -32,6 +32,14 @@ The dataset is built merging templates and COCO (Common Objects in Context) imag
 
 ### Templates
 
+The template images where acquired via public access, and have the following properties:
+
+- Dimensions: 70x70 pixels
+- Color: yellow/orange
+- Shape: rectangle/diamond
+
+A total of 14 templates where used for this dataset creation
+
 ### Generating overlapped images for training
 
 ## Mobile Tensorflow Lite
