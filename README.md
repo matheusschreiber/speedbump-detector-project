@@ -37,6 +37,7 @@ The template images where acquired via public access, and have the following pro
 - Dimensions: 70x70 pixels
 - Color: yellow/orange
 - Shape: rectangle/diamond
+- File: ppm (Portable Pixmap Format)
 
 A total of 14 templates where used for this dataset creation
 
