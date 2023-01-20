@@ -227,7 +227,7 @@ def process_img(target, template, template_mask, probabilities_vector, positions
     y1 = y0 + template_h
 
     if (x1 >= target_w and position_is_centered) or (y1 >= target_h and position_is_centered):
-        # print(f"Position doesn't fit the template")
+        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Position doesn't fit the template")
         return target, None, scale, data
     if x1 >= target_w:
         diff = x1 - target_w + 1
@@ -251,11 +251,11 @@ def process_img(target, template, template_mask, probabilities_vector, positions
     y1 = y0 + template.shape[0]
 
     if bboxes is not None and has_intersection(x0, y0, x1, y1, bboxes):
-        # print("Template intersection")
+        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Template intersection")
         return target, None, scale, data
 
     if x0 < 0 or y0 < 0 or x1 >= target_w or y1 >= target_h:
-        # print("Template out of bounds")
+        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Template out of bounds")
         return target, None, scale, data
 
     template = blend(template, template_mask, target, {
@@ -444,7 +444,7 @@ if __name__ == '__main__':
     shutil.copyfile(os.path.realpath(__file__), os.path.join(args.out_path, 'generate_dataset.py'))
 
     all_img_names = os.listdir(targets_path)
-    probabilities_vector = hc_probabilties_vector((1500, 1500))
+    probabilities_vector = hc_probabilties_vector((640, 640))
     positions_list = np.arange(0, probabilities_vector.size)
 
     template_names = os.listdir(templates_path)
