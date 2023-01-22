@@ -2,10 +2,11 @@ from coco_dataset import coco_dataset_download as coco
 
 classes = [
 # 'dog', 'cat', 'person', 
-'bird', 'banana', 'sandwich',
-'carrot', 'orange', 'apple', 'pizza', 'hot dog', 
-'donut', 'cake', 'chair', 'dining table', 'toilet', 
-'bed', 'couch'
+# 'bird', 'banana', 'sandwich',
+'carrot', 'orange', 'apple',
+'pizza', 'hot dog', 'donut',
+'cake', 'chair', 'dining table',
+'toilet', 'bed', 'couch'
 ]
 
 for cl in classes:
