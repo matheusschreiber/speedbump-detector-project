@@ -35,7 +35,7 @@ def split():
     for row in tqdm(reader_obj, desc="Allocating on Train/Test/Validation"):
       
       if i<train_amount:
-        data=["TRAIN"]
+        data=["TRAINING"]
       elif i<train_amount+test_amount:
         data=["TEST"]
       else:
