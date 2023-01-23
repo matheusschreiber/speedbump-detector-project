@@ -9,24 +9,24 @@ This is a neural network envisioned to detect speedbumps signs, ~~with the poten
 
 The dataset is built merging templates and COCO (Common Objects in Context) images on these topics:
 
-- 200 images on `dog`
-- 200 images on `cat`
-- 200 images on `person`
-- 200 images on `bird`
-- 200 images on `banana`
-- 200 images on `sandwich`
-- 200 images on `carrot`
-- 200 images on `orange`
-- 200 images on `apple`
-- 200 images on `pizza`
-- 200 images on `hot dog`
-- 200 images on `donut`
-- 200 images on `cake`
-- 200 images on `chair`
-- 200 images on `dining table`
-- 200 images on `toilet`
-- 200 images on `bed`
-- 200 images on `couch`
+- 600 images on `dog`
+- 600 images on `cat`
+- 600 images on `person`
+- 600 images on `bird`
+- 600 images on `banana`
+- 600 images on `sandwich`
+- 600 images on `carrot`
+- 600 images on `orange`
+- 600 images on `apple`
+- 600 images on `pizza`
+- 600 images on `hot dog`
+- 600 images on `donut`
+- 600 images on `cake`
+- 600 images on `chair`
+- 600 images on `dining table`
+- 600 images on `toilet`
+- 600 images on `bed`
+- 600 images on `couch`
 
 > [Instructions on how to use the script on COCO](/script_coco/COCO_GETTING_STARTED.md)
 
@@ -34,7 +34,11 @@ In order to use the COCO images, is necessary to pre filter them, with scaling t
 
 > [More info about filter process](/dataset_mobile/FILTER.md)
 
-In total, after filtering, was used more than 1400 images, that generated 1264 samples.
+In total, was used more than 8.700 images that after filtering generated 4.500 background targets and 10.000 samples. 
+
+From those, were used 8.000 train samples, 1.000 test samples and 1.000 validation samples.
+
+> Is safe to say that this number shrinks from the expected (600x18=10.800) because some classes have overlapping photos (with a cat and a dog on the same photo for example).
 
 ### Templates
 
@@ -47,7 +51,7 @@ The template images where acquired via public access, and have the following pro
 - Shape: rectangle/diamond
 - File: ppm (Portable Pixmap Format)
 
-#### Othe types of signs
+#### Other types of signs
 
 - Dimensions: 70x70 pixels
 - Color: white/red
