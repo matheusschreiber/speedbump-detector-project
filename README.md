@@ -130,3 +130,13 @@ TEST,imgs/00148_COCO_train2014_000000524366.jpg,SpeedBumpSign,0.6531,0.0000,,,0.
 ```
 VALIDATION,imgs/00149_COCO_train2014_000000114776.jpg,SpeedBumpSign,0.6813,0.3167,,,0.7516,0.4104,,
 ```
+
+## Exporting to mobile environment
+
+Once the model is trained, is necessary to upload the `.tflite` file into the android studio project at this directory:
+
+```
+/mobile-app-tensorflow/examples/lite/examples/object_detection/android/app/src/main/assets
+```
+
+The model file must be named `mobilenetv1.tflite` in order to match the ML engine used.
