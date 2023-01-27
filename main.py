@@ -21,8 +21,8 @@ from detectron2.data import MetadataCatalog, DatasetCatalog
 
 from google.colab.patches import cv2_imshow
 # !wget http://images.cocodataset.org/val2017/000000439715.jpg -q -O input.jpg
-im = cv2.imread("./input.jpg")
-cv2_imshow(im)
+# im = cv2.imread("./input.jpg")
+# cv2_imshow(im)
 
 
 cfg = get_cfg()
@@ -37,4 +37,4 @@ outputs = predictor(im)
 # We can use `Visualizer` to draw the predictions on the image.
 v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
 out = v.draw_instance_predictions(outputs["instances"].to("cpu"))
-cv2_imshow(out.get_image()[:, :, ::-1])
+# cv2_imshow(out.get_image()[:, :, ::-1])
