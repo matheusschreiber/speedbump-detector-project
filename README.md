@@ -100,10 +100,10 @@ A full log of result quantities is displayed on console.
 
 ## Best conditions so far
 
-- Samples: __
+- Samples: 10.000
 - Epochs: __
-- Batch size: __
-- AP: __
+- Batch size: 8
+- AP: 0.84 (84%)
 - Average time: __
 
 
@@ -140,3 +140,5 @@ Once the model is trained, is necessary to upload the `.tflite` file into the an
 ```
 
 The model file must be named `mobilenetv1.tflite` in order to match the ML engine used.
+
+>More info about android studio soon...
