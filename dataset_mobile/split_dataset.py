@@ -9,7 +9,7 @@ TRAIN_AMOUNT=.8
 TEST_AMOUNT=.1
 VAL_AMOUNT=.1
 
-# TODO: check if its necessary to contain a speedbump sign to on sample (otherwise the sample amount get drastically reduced)
+# FIXME: other signs images are beeing excluded
 
 def split():
   out_path="output"
