@@ -120,7 +120,7 @@ A full log of result quantities is displayed on console.
 - ARs: 0.64464945,
 - ARm: 0.92369145,
 - ARl: 0.9875,
-- AP_SpeedBumpSign': 0.8392932
+- AP_SpeedBumpSign: 0.8392932
 
 
 ## Dataset layout
@@ -156,5 +156,3 @@ Once the model is trained, is necessary to upload the `.tflite` file into the an
 ```
 
 The model file must be named `mobilenetv1.tflite` in order to match the ML engine used.
-
->More info about android studio soon...
