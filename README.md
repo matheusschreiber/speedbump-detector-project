@@ -95,7 +95,7 @@ A full log of result quantities is displayed on console.
 - Samples: 150
 - Epochs: 50
 - Batch size: 8
-- AP: 0.7478128 (74%) 
+- AP (Average Precision): 0.7478128 (74%) 
 - Average time: 2min
 
 ## Best conditions so far
@@ -103,7 +103,7 @@ A full log of result quantities is displayed on console.
 - Samples: 10.000
 - Epochs: 50
 - Batch size: 8
-- AP: 0.84 (84%)
+- AP (Average Precision): 0.84 (84%)
 - Average time: 3h
 
 ### Metrics
