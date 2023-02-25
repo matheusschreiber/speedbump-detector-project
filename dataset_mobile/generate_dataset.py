@@ -310,7 +310,10 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
         image_data['add_value'] = add_value
         image_data['multiply_value'] = multiply_value
         bboxes = []
+        
+        #TODO: separate here to always have one template of the speedbump type
         template_ids_selected = np.random.choice(list(range(len(templates))), size=nb_signs_in_img, replace=False)
+        
         image_data['template_ids'] = template_ids_selected
         scale = None
         # countinTries=0
@@ -408,9 +411,6 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
         pickle.dump(image_data, data_out_f)
 
 
-# def prepare_targets():
-
-
 def split(out_path):
     SPEED_BUMP_THRESHOLD=14
     TRAIN_AMOUNT=.8
@@ -445,7 +445,7 @@ def split(out_path):
             else:
                 data=["VALIDATION"]
 
-                data = data+row
+            data = data+row
             
             if (int)(data[2])<=SPEED_BUMP_THRESHOLD: 
                 data[2] = "SpeedBumpSign"
@@ -454,7 +454,9 @@ def split(out_path):
                 out_path_split_img = f"{out_path_split}/{data[1].replace(f'{out_path}','')}"
                 if not os.path.isfile(out_path_split_img): 
                     shutil.copyfile(data[1],out_path_split_img)
-                    
+            
+            #TODO: the leak of non-used samples has to be taken care of!!!!!
+
             if not previous_sample==data[1]:
                 previous_sample=data[1]
                 i+=1
