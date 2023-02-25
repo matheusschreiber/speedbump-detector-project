@@ -90,16 +90,9 @@ A full log of result quantities is displayed on console.
 
 > [Tensorflow Lite 2 colab](https://colab.research.google.com/drive/1D2elywD2a8bsWZPGSxYv3RZKiP_h1jLR#scrollTo=Gb7qyhNL1yWt) for GPU access to train the model
 
-## First conditions
-
-- Samples: 150
-- Epochs: 50
-- Batch size: 8
-- AP (Average Precision): 0.7478128 (74%) 
-- Average time: 2min
-
 ## Best conditions so far
 
+(to be updated)
 - Samples: 10.000
 - Epochs: 50
 - Batch size: 8
