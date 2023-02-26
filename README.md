@@ -34,9 +34,11 @@ In order to use the COCO images, is necessary to pre filter them, with scaling t
 
 > [More info about filter process](/dataset_mobile/FILTER.md)
 
-In total, was used more than 8.700 images that after filtering generated 4.500 background targets and 10.000 samples. 
+~~In total, was used more than 8.700 images that after filtering generated 4.500 background targets and 10.000 samples.~~
 
-From those, were used 8.000 train samples, 1.000 test samples and 1.000 validation samples.
+~~From those, were used 8.000 train samples, 1.000 test samples and 1.000 validation samples.~~
+
+(upgrading to 50.000 samples)
 
 > Is safe to say that this number shrinks from the expected (600x18=10.800) because some classes have overlapping photos (with a cat and a dog on the same photo for example).
 
