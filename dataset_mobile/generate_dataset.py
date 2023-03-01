@@ -449,12 +449,13 @@ def split(out_path):
             
             if (int)(data[2])<=SPEED_BUMP_THRESHOLD: 
                 data[2] = "SpeedBumpSign"
-                writer.writerow(data)
-
                 out_path_split_img = f"{out_path_split}/{data[1].replace(f'{out_path}','')}"
+                
                 if not os.path.isfile(out_path_split_img): 
                     shutil.copyfile(data[1],out_path_split_img)
-            
+                
+                data[1] = data[1].replace(f'{out_path}/', '')
+                writer.writerow(data)
             #TODO: the leak of non-used samples has to be taken care of!!!!!
 
             if not previous_sample==data[1]:
