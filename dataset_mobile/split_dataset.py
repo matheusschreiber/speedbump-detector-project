@@ -4,7 +4,7 @@ from math import floor
 from tqdm import tqdm
 import shutil
 
-SPEED_BUMP_THRESHOLD=14
+SPEED_BUMP_THRESHOLD=15
 TRAIN_AMOUNT=.8
 TEST_AMOUNT=.1
 VAL_AMOUNT=.1

@@ -412,7 +412,7 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
 
 
 def split(out_path):
-    SPEED_BUMP_THRESHOLD=14
+    SPEED_BUMP_THRESHOLD=15
     TRAIN_AMOUNT=.8
     TEST_AMOUNT=.1
     VAL_AMOUNT=.1

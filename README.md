@@ -49,12 +49,17 @@ The template images where acquired via public access, from CONTRAN (Conselho Nac
 - ["Sinalização Vertical de Advertência"](https://www.gov.br/infraestrutura/pt-br/assuntos/transito/arquivos-senatran/docs/copy_of___02___MBST_Vol._II___Sin._Vert._Advertencia.pdf)
 - ["Sinalização Vertical de Indicação"](https://www.gov.br/infraestrutura/pt-br/assuntos/transito/arquivos-senatran/docs/copy_of___03___MBST_Vol._III___Sin._Vert._Indicacao.pdf)
 
+Also:
+
+- ["Sinalização Brasileira"](https://pt.wikipedia.org/wiki/Sinaliza%C3%A7%C3%A3o_de_tr%C3%A2nsito_no_Brasil)
+
 #### Speed bump sign
 
 - Dimensions: 70x70 pixels
 - Color: yellow/orange
 - Shape: rectangle/diamond
 - File: ppm (Portable Pixmap Format)
+- Amount: 14 files
 
 #### Other types of signs
 
@@ -62,6 +67,7 @@ The template images where acquired via public access, from CONTRAN (Conselho Nac
 - Color: white/red
 - Shape: round/octagonal
 - File: ppm (Portable Pixmap Format)
+- Amount: 119 files
 
 A total of 14 templates from speed bumps where used for this dataset creation, alogside the other types of signs, it sum up to 29 different templates.
 
@@ -83,7 +89,7 @@ Due to the random positioning of templates, it may take a while to generate all 
 A module built for splitting the recent generated dataset is available on `split_dataset.py`, where must be setted the speed bump sign threshold (last specific sb sign ppm file, to separate from other signs), train amount, test amount and validation test amount. These last three must be provided in percentage (decimal).
 
 ```py
-SPEED_BUMP_THRESHOLD=14 # last sb sign is 0014.ppm
+SPEED_BUMP_THRESHOLD=15 # last sb sign is 0015.ppm
 TRAIN_AMOUNT=.8         # 80%
 TEST_AMOUNT=.1          # 10%
 VAL_AMOUNT=.1           # 10%
