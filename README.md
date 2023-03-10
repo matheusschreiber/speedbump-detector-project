@@ -2,8 +2,7 @@
 
 This is a neural network envisioned to detect speedbumps signs, ~~with the potential to run it into a mobile environment later on~~ running on mobile devices. 🥳
 
-
-## Dataset 
+## Dataset
 
 ### Image backgrounds
 
@@ -44,9 +43,13 @@ In order to use the COCO images, is necessary to pre filter them, with scaling t
 
 ### Templates
 
-The template images where acquired via public access, and have the following properties:
+The template images where acquired via public access, from CONTRAN (Conselho Nacional de Trânsito) database available below:
 
-#### Speed bump sign 
+- ["Sinalização Vertical de Regulamentação"](https://www.gov.br/infraestrutura/pt-br/assuntos/transito/arquivos-senatran/docs/copy_of___01___MBST_Vol._I___Sin._Vert._Regulamentacao_F.pdf)
+- ["Sinalização Vertical de Advertência"](https://www.gov.br/infraestrutura/pt-br/assuntos/transito/arquivos-senatran/docs/copy_of___02___MBST_Vol._II___Sin._Vert._Advertencia.pdf)
+- ["Sinalização Vertical de Indicação"](https://www.gov.br/infraestrutura/pt-br/assuntos/transito/arquivos-senatran/docs/copy_of___03___MBST_Vol._III___Sin._Vert._Indicacao.pdf)
+
+#### Speed bump sign
 
 - Dimensions: 70x70 pixels
 - Color: yellow/orange
@@ -77,7 +80,7 @@ Due to the random positioning of templates, it may take a while to generate all 
 
 ### Split dataset onto train, test and validation
 
-A module built for splitting the recent generated dataset is available on `split_dataset.py`, where must be setted the speed bump sign threshold (last specific sb sign ppm file, to separate from other signs), train amount, test amount and validation test amount. These last three must be provided in percentage (decimal). 
+A module built for splitting the recent generated dataset is available on `split_dataset.py`, where must be setted the speed bump sign threshold (last specific sb sign ppm file, to separate from other signs), train amount, test amount and validation test amount. These last three must be provided in percentage (decimal).
 
 ```py
 SPEED_BUMP_THRESHOLD=14 # last sb sign is 0014.ppm
@@ -92,9 +95,12 @@ A full log of result quantities is displayed on console.
 
 > [Tensorflow Lite 2 colab](https://colab.research.google.com/drive/1D2elywD2a8bsWZPGSxYv3RZKiP_h1jLR#scrollTo=Gb7qyhNL1yWt) for GPU access to train the model
 
+The tensors of the trained model are described in [here](tensors_details_10k_model.py).
+
 ## Best conditions so far
 
 (to be updated)
+
 - Samples: 10.000
 - Epochs: 50
 - Batch size: 8
@@ -117,15 +123,16 @@ A full log of result quantities is displayed on console.
 - ARl: 0.9875,
 - AP_SpeedBumpSign: 0.8392932
 
-
 ## Dataset layout
 
 ```
 TRAINING,gs://cloud-ml-data/img/openimage/3/2520/3916261642_0a504acd60_o.jpg,Salad,0.0,0.0954,,,0.977,0.957,,
 ```
+
 ```
 VALIDATION,gs://cloud-ml-data/img/openimage/3/2520/3916261642_0a504acd60_o.jpg,Seafood,0.0154,0.1538,,,1.0,0.802,,
 ```
+
 ```
 TEST,gs://cloud-ml-data/img/openimage/3/2520/3916261642_0a504acd60_o.jpg,Tomato,0.0,0.655,,,0.231,0.839,,
 ```
@@ -135,9 +142,11 @@ TEST,gs://cloud-ml-data/img/openimage/3/2520/3916261642_0a504acd60_o.jpg,Tomato,
 ```
 TRAINING,imgs/00000_COCO_train2014_000000262260.jpg,SpeedBumpSign,0.4375,0.1007,,,0.5453,0.2623,,
 ```
+
 ```
 TEST,imgs/00148_COCO_train2014_000000524366.jpg,SpeedBumpSign,0.6531,0.0000,,,0.7844,0.1944,,
 ```
+
 ```
 VALIDATION,imgs/00149_COCO_train2014_000000114776.jpg,SpeedBumpSign,0.6813,0.3167,,,0.7516,0.4104,,
 ```
