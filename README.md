@@ -59,7 +59,7 @@ Also:
 - Color: yellow/orange
 - Shape: rectangle/diamond
 - File: ppm (Portable Pixmap Format)
-- Amount: 14 files
+- Amount: 16 files
 
 #### Other types of signs
 
