@@ -16,6 +16,11 @@ from joblib import Parallel, delayed
 from imgaug import augmenters as iaa
 from matplotlib import pyplot as plt
 
+SPEED_BUMP_THRESHOLD=15
+TRAIN_AMOUNT=.8
+TEST_AMOUNT=.1
+VAL_AMOUNT=.1
+
 def augment_target(target, multiply_value=None, add_value=None):
     if add_value is None:
         add_value = float(np.random.uniform(-120, 120))
@@ -149,7 +154,6 @@ def blend(template, template_mask, target_image, target_bbox, steps=3):
 
     return blended.astype(np.float32) / 255.0
 
-
 def get_random_position(probabilities_vector, positions_list, img_size=(2048, 2048), sample_size=1):
     positions = np.random.choice(
         positions_list, size=sample_size, p=probabilities_vector)
@@ -281,7 +285,6 @@ def get_mask_from_image(alpha_image):
     mask[:, :, 0][alpha_channel > 0] = 1
     mask[:, :, 1][alpha_channel > 0] = 1
     mask[:, :, 2][alpha_channel > 0] = 1
-
     return mask
 
 
@@ -304,16 +307,16 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
         image_data = {
             'bbox_data': []
         }
-        nb_signs_in_img = np.random.randint(1, 5 + 1)
+        nb_signs_in_img = np.random.randint(1, 5) + 1
         total = 0
         target, add_value, multiply_value = augment_target(target)
         image_data['add_value'] = add_value
         image_data['multiply_value'] = multiply_value
         bboxes = []
         
-        #TODO: separate here to always have one template of the speedbump type
-        template_ids_selected = np.random.choice(list(range(len(templates))), size=nb_signs_in_img, replace=False)
-        
+        sb_template_ids_selected = np.random.choice(list(range(SPEED_BUMP_THRESHOLD)), size=1, replace=False)
+        template_ids_selected = np.random.choice(list(range(len(templates))), size=nb_signs_in_img-1, replace=False)
+        template_ids_selected = list(template_ids_selected) + list(sb_template_ids_selected)
         image_data['template_ids'] = template_ids_selected
         scale = None
         # countinTries=0
@@ -322,7 +325,6 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
             # np.random.seed((int)(now.strftime("%S")))
             # countinTries+=1
             # if countinTries%100==0: print(f'try{countinTries} {nb_signs_in_img}')
-
             template = templates[template_ids_selected[total]][0]
             template_mask = templates[template_ids_selected[total]][1]
             template_category = templates[template_ids_selected[total]][2]
@@ -338,27 +340,27 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
                     'data': data
                 })
                 total += 1
-            probs = [0.4, 0.5]
-            while len(probs) > 0:
-                do_place_below = np.random.choice([True, False], p=[probs[0], 1 - probs[0]]) and total < nb_signs_in_img
-                if not (do_place_below and total < nb_signs_in_img and bbox):
-                    break
-                probs = probs[1:]
-                position = (bbox['xmin'], bbox['ymax'])
-                template = templates[template_ids_selected[total]][0]
-                template_mask = templates[template_ids_selected[total]][1]
-                template_category = templates[template_ids_selected[total]][2]
-                target, bbox, scale, data = process_img(
-                    target.copy(), template, template_mask, probabilities_vector, positions_list, multiply_value,
-                    position, bboxes, scale=scale)
-                if bbox:
-                    bbox['category'] = template_category
-                    bboxes.append(bbox)
-                    image_data['bbox_data'].append({
-                        'bbox': bbox,
-                        'data': data
-                    })
-                    total += 1
+            # probs = [0.4, 0.5]
+            # while len(probs) > 0:
+            #     do_place_below = np.random.choice([True, False], p=[probs[0], 1 - probs[0]]) and total < nb_signs_in_img
+            #     if not (do_place_below and total < nb_signs_in_img and bbox):
+            #         break
+            #     probs = probs[1:]
+            #     position = (bbox['xmin'], bbox['ymax'])
+            #     template = templates[template_ids_selected[total]][0]
+            #     template_mask = templates[template_ids_selected[total]][1]
+            #     template_category = templates[template_ids_selected[total]][2]
+            #     target, bbox, scale, data = process_img(
+            #         target.copy(), template, template_mask, probabilities_vector, positions_list, multiply_value,
+            #         position, bboxes, scale=scale)
+            #     if bbox:
+            #         bbox['category'] = template_category
+            #         bboxes.append(bbox)
+            #         image_data['bbox_data'].append({
+            #             'bbox': bbox,
+            #             'data': data
+            #         })
+            #         total += 1
 
         blur_value = float(np.random.uniform(0, 7)) * scale
         image_data['blur_value'] = blur_value
@@ -412,10 +414,6 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
 
 
 def split(out_path):
-    SPEED_BUMP_THRESHOLD=15
-    TRAIN_AMOUNT=.8
-    TEST_AMOUNT=.1
-    VAL_AMOUNT=.1
 
     out_path_split= os.path.join(out_path, "splitted_output")
 
@@ -429,18 +427,20 @@ def split(out_path):
     writer = csv.writer(speed_bumps_csv)
 
     total_samples = len(os.listdir(os.path.join(out_path, "imgs")))
-    train_amount = math.floor(TRAIN_AMOUNT*total_samples)
-    test_amount = math.floor(TEST_AMOUNT*total_samples)
-    val_amount = total_samples-train_amount-test_amount
+    train_amount_spec = math.floor(TRAIN_AMOUNT*total_samples)
+    test_amount_spec = math.floor(TEST_AMOUNT*total_samples)
+
+    train_amount = 0
+    test_amount = 0
+    
     i=0
+    previous_sample=""  
     with open('output/multiclass.csv') as f:
         reader_obj = csv.reader(f)
-        previous_sample=""  
         for row in tqdm(reader_obj, desc="Allocating on Train/Test/Validation"):
-            
-            if i<train_amount:
+            if i<train_amount_spec:
                 data=["TRAIN"]
-            elif i<train_amount+test_amount:
+            elif i<train_amount_spec+test_amount_spec:
                 data=["TEST"]
             else:
                 data=["VALIDATION"]
@@ -456,16 +456,21 @@ def split(out_path):
                 
                 data[1] = data[1].replace(f'{out_path}/', '')
                 writer.writerow(data)
-            #TODO: the leak of non-used samples has to be taken care of!!!!!
-
+            else: continue
+            
             if not previous_sample==data[1]:
                 previous_sample=data[1]
                 i+=1
 
-    print(f"TOTAL SAMPLES: {total_samples}")
+                if i<train_amount_spec:
+                    train_amount+=1
+                elif i<train_amount_spec+test_amount_spec:
+                    test_amount+=1
+
+    print(f"TOTAL SAMPLES: {i}")
     print(f"Train: {train_amount}")
     print(f"Test: {test_amount}")
-    print(f"Validation: {val_amount}")
+    print(f"Validation: {i-train_amount-test_amount}")
 
     speed_bumps_csv.close()
 
@@ -513,6 +518,7 @@ if __name__ == '__main__':
 
     templates = []
     t0 = time.time()
+    template_names = sorted(template_names)
     for template_name in template_names:
         template_path = os.path.join(templates_path, template_name)
         template = cv2.imread(template_path, cv2.IMREAD_UNCHANGED).astype(
