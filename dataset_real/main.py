@@ -15,7 +15,7 @@ def parse_args():
   parser = argparse.ArgumentParser(
     description='Merge annotations with images on csv.')
 
-  parser.add_argument('--input-path', dest='in_path', type=str, required=True, help='Directory where images and annotations are located')
+  parser.add_argument('--in-path', dest='in_path', type=str, required=True, help='Directory where images and annotations are located')
   parser.add_argument('--out-path', dest='out_path', type=str, required=True, help='Output path to the set')
 
   return parser.parse_args()
