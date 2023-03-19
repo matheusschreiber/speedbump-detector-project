@@ -64,8 +64,8 @@ Also:
 #### Other types of signs
 
 - Dimensions: 70x70 pixels
-- Color: white/red
-- Shape: round/octagonal
+~~- Color: white/red~~
+~~- Shape: round/octagonal~~
 - File: ppm (Portable Pixmap Format)
 - Amount: 119 files
 
