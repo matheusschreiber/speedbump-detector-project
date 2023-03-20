@@ -28,7 +28,7 @@ if __name__ == '__main__':
   search_string = f"{args.in_path}/*.txt"
   csv_lines = []
 
-  for i in glob.glob(search_string):
+  for i in tqdm(glob.glob(search_string)):
     file_name = i.replace(f'{args.in_path}/', '')
     with open(i, "r") as file:
       lines = file.read().split('\n')
