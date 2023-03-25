@@ -37,7 +37,11 @@ if __name__ == '__main__':
         coords.pop(0)
         if coords: 
           image_name = file_name.replace('.txt','.jpg')
-          csv_lines.append(f"TEST,imgs/{image_name},SpeedBumpSign,{(float)(coords[0]):.4f},{(float)(coords[1]):.4f},,,{(float)(coords[2]):.4f},{(float)(coords[3]):.4f},,")
+          xmin = (float)(coords[0]) - (float)(coords[2])/2
+          ymin = (float)(coords[1]) - (float)(coords[3])/2
+          xmax = (float)(coords[0]) + (float)(coords[2])/2
+          ymax = (float)(coords[1]) + (float)(coords[3])/2
+          csv_lines.append(f"TEST,imgs/{image_name},SpeedBumpSign,{xmin:.4f},{ymin:.4f},,,{xmax:.4f},{ymax:.4f},,")
           
           out_image = f'{args.out_path}/imgs/{image_name}'
           in_image = f'{args.in_path}/{image_name}'
