@@ -1,4 +1,4 @@
-import json
+# more info on output via https://cocodataset.org/#detection-eval
 from pycocotools.coco import COCO
 from pycocotools.cocoeval import COCOeval
 
