@@ -13,4 +13,5 @@ detectron-python-env/
 *.ppm
 *.png
 output/
+**/ready_dataset
 
