@@ -1,2 +1,5 @@
 imgaug
+opencv-python
 joblib
+tqdm
+pascal-voc-writer

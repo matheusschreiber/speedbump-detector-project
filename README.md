@@ -105,13 +105,11 @@ The tensors of the trained model are described in [here](tensors_details_10k_mod
 
 ## Best conditions so far
 
-(to be updated)
-
 - Samples: 10.000
 - Epochs: 50
 - Batch size: 8
 - AP (Average Precision): 0.84 (84%)
-- Average time: 3h
+- Average training session: 3h
 
 ### Metrics
 
