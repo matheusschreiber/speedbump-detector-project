@@ -77,7 +77,7 @@ def brightness_transform(template, template_mask, target_region):
     return template, {}
 
 
-def geometric_transform(template, template_mask, x, target_size=(1500, 1500), scale=None, prelodaded_data=None):
+def geometric_transform(template, template_mask, x, target_size=(640,640), scale=None, prelodaded_data=None):
     data = {}
     rows, cols, _ = template.shape
     x -= int(round(target_size[1] / 2))
@@ -306,16 +306,17 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
                     load_path, out_path):
     np.random.seed(None)
     img_path = os.path.join(targets_path, img_name)
-    try:
-        target = cv2.imread(img_path)
-        crop_width = int(target.shape[1]/2)
-        crop_height = int(target.shape[0]/2)
-        frame = int(1500/2)
-        target = target[crop_height-frame:crop_height+frame, crop_width-frame:crop_width+frame]
-        target = target.astype(np.float32) / 255.0
-    except:
-        print('Error with:', img_path)
-        return
+    # try:
+    target = cv2.imread(img_path)
+    crop_width = int(target.shape[1]/2)
+    crop_height = int(target.shape[0]/2)
+    frame = int(1500/2)
+    target = target[crop_height-frame:crop_height+frame, crop_width-frame:crop_width+frame]
+    target = cv2.resize(target, (640,640))
+    target = target.astype(np.float32) / 255.0
+    # except:
+    #     print('Error with:', img_path)
+    #     return
     if load_path is None:
         image_data = {
             'bbox_data': []
@@ -587,7 +588,7 @@ if __name__ == '__main__':
     # shutil.copyfile(os.path.realpath(__file__), os.path.join(args.out_path, 'generate_dataset.py'))
 
     all_img_names = os.listdir(targets_path)
-    probabilities_vector = hc_probabilties_vector((1500, 1500))
+    probabilities_vector = hc_probabilties_vector((640,640))
     positions_list = np.arange(0, probabilities_vector.size)
 
     template_names = os.listdir(templates_path)
