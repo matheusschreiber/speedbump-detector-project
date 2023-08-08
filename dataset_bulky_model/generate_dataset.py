@@ -121,7 +121,8 @@ def geometric_transform(template, template_mask, x, target_size=(640,640), scale
     # scale
     if prelodaded_data is None:
         if scale is None:
-            scale_factor = (.5 + relative_x) * (min(template.shape[0], template.shape[1])) / 100.0
+            scale_factor = (.175 + relative_x) * (min(template.shape[0], template.shape[1])) / 100.0
+            #scale_factor = (.175 + relative_x) * (min(template.shape[0], template.shape[1])) / 100.0 # (640,640) -> .175
         else:
             scale_factor = scale
     else:
@@ -310,7 +311,7 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
     target = cv2.imread(img_path)
     crop_width = int(target.shape[1]/2)
     crop_height = int(target.shape[0]/2)
-    frame = int(1500/2)
+    frame = int(640/2)
     target = target[crop_height-frame:crop_height+frame, crop_width-frame:crop_width+frame]
     target = cv2.resize(target, (640,640))
     target = target.astype(np.float32) / 255.0
@@ -399,8 +400,8 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
 
         blur_value = image_data['blur_value']
     
-    blur_effect = iaa.Sequential([iaa.GaussianBlur(blur_value)]).to_deterministic()
-    target = blur_effect.augment_image(target)
+    # blur_effect = iaa.Sequential([iaa.GaussianBlur(blur_value)]).to_deterministic()
+    # target = blur_effect.augment_image(target)
     
     img_out_path = os.path.join(images_out_path, "{:05d}_{}.jpg".format(nb_imgs_generated,
                                                                         os.path.splitext(img_name)[0]))
@@ -411,10 +412,10 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
     binary_annotation_lines = []
     multiclass_annotation_lines = []
     for bbox in bboxes:
-        img = cv2.imread(img_path)
-        binary_line = f"{img_out_path},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},SpeedBumpSign"        
-        # multiclass_line = f"{img_out_path},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},{bbox['category']}"        
-        multiclass_line = f"{img_out_path},{bbox['category']},{bbox['xmin']/img.shape[1]:.4f},{bbox['ymin']/img.shape[0]:.4f},,,{bbox['xmax']/img.shape[1]:.4f},{bbox['ymax']/img.shape[0]:.4f},,"        
+        # img = cv2.imread(img_path)
+        binary_line = f"{img_out_path},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},SpeedBumpSign"        
+        # multiclass_line = f"{img_out_path},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},{bbox['category']}"        
+        multiclass_line = f"{img_out_path},{bbox['category']},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},,,{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},,"        
         binary_annotation_lines.append(binary_line)
         multiclass_annotation_lines.append(multiclass_line)
 
