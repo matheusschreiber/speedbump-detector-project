@@ -495,7 +495,7 @@ def pascal_voc(out_path, img_name, img_out_path, bboxes, nb_imgs_generated):
 
 def split(out_path):
 
-    out_path_split= os.path.join(out_path, "splitted_output")
+    out_path_split = os.path.join(out_path, "splitted_output")
 
     if os.path.isdir(out_path_split):
         shutil.rmtree(out_path_split) 
@@ -515,17 +515,23 @@ def split(out_path):
     
     i=0
     previous_sample=""  
+    previous_sample_type=""
     with open('output/multiclass.csv') as f:
         reader_obj = csv.reader(f)
         for row in tqdm(reader_obj, desc="Allocating on Train/Test/Validation"):
+            
             if i<train_amount_spec:
-                data=["TRAIN"]
+                sample_type = "TRAIN"
             elif i<train_amount_spec+test_amount_spec:
-                data=["TEST"]
+                sample_type = "TEST"
             else:
-                data=["VALIDATION"]
+                sample_type = "VALIDATION"
 
-            data = data+row
+            if previous_sample == row[0].replace(f'{out_path}/','') and previous_sample_type != sample_type:
+                sample_type = previous_sample_type
+
+            previous_sample_type = sample_type
+            data = [sample_type]+row
             
             if (int)(data[2])<=SPEED_BUMP_THRESHOLD: 
                 data[2] = "SpeedBumpSign"
