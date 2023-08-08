@@ -4,60 +4,39 @@ import cv2
 import os
 import shutil
 
-X_MIN=1500
-Y_MIN=1500
-LIMIT_TO_DISCART=200
+DIM = 640
+LIMIT = 200
+OUTPUT_PATH = "bgs"
+INPUT_PATH = "raw_bgs"
 
-def reportImages():
-  all_img_names = os.listdir("bgs/")
-  file = open('shapes.txt','w')
-  shapes=[]
-  for name in tqdm(all_img_names, desc="Generating report"):
-    im = cv2.imread(f'bgs/{name}')
-    file.write((str)(im.shape) + " " + name + "\n") 
-    shapes.append(im.shape)
-  file.close()
-
-  # print(*shapes, sep='\n')
-  print(f"Ideal shape: ({min(shapes, key = lambda t: t[0])[0]}, {min(shapes, key = lambda t: t[1])[1]})")
-
-def scaleImages():
-  all_img_names = os.listdir("raw_bgs/")
-
-  for name in tqdm(all_img_names, desc="Scaling images"):
-    im = cv2.imread(f'raw_bgs/{name}')
+def prepare_bgs():
+  if os.path.isdir(OUTPUT_PATH): shutil.rmtree(OUTPUT_PATH)
+  os.makedirs(OUTPUT_PATH)
+  
+  all_img_names = os.listdir(INPUT_PATH)
     
-    # if img is bigger than quota on both dimensions
-    if (im.shape[0]>X_MIN and im.shape[1]>Y_MIN): 
-      
-      # if its landscape
-      if (im.shape[0]>im.shape[1]):
-        scaleFactor = (int)((X_MIN/im.shape[0]) * im.shape[1])
-        Image.open(f"raw_bgs/{name}").resize((scaleFactor, X_MIN)).save(f"bgs/{name}")  
-      
-      # if its portrait
-      else:
-        scaleFactor = (int)((Y_MIN/im.shape[1]) * im.shape[0])
-        Image.open(f"raw_bgs/{name}").resize((Y_MIN, scaleFactor)).save(f"bgs/{name}")  
-      print(name)
-      break
+  for name in tqdm(all_img_names):
+    image = cv2.imread(os.path.join(INPUT_PATH, name))
+    
+    # discarting low quality images
+    if image.shape[0] < LIMIT or image.shape[1] < LIMIT: continue
+  
+    # calculation scale factor based on smaller dimension
+    scale_factor = DIM/min(image.shape[0], image.shape[1])
+    image = cv2.resize(image, None, fx=scale_factor, fy=scale_factor)
 
-    else:
-      # if its too tiny to use, discart it
-      if (im.shape[0]<LIMIT_TO_DISCART or im.shape[1]<LIMIT_TO_DISCART): 
-        continue
-      
-      # if is short on width
-      elif (im.shape[0]<im.shape[1]):
-        scaleFactor = (int)((X_MIN/im.shape[0]) * im.shape[1])
-        Image.open(f"raw_bgs/{name}").resize((scaleFactor, X_MIN)).save(f"bgs/{name}")
-      
-      # of os short on height
-      else:
-        scaleFactor = (int)((Y_MIN/im.shape[1]) * im.shape[0])
-        Image.open(f"raw_bgs/{name}").resize((Y_MIN, scaleFactor)).save(f"bgs/{name}")
+    # cropping scaled image
+    image_width_middle = int(image.shape[1]/2)
+    image_height_middle = int(image.shape[0]/2)
+    frame = int(DIM/2)
+    image = image[image_height_middle-frame:image_height_middle+frame, image_width_middle-frame:image_width_middle+frame]
+    image = cv2.resize(image, (DIM,DIM))
 
+    # debug
+    # cv2.imshow(f"{name}_({image.shape[0]},{image.shape[1]})", image)
+    # cv2.waitKey()
+
+    cv2.imwrite(os.path.join(OUTPUT_PATH, name), image)
 
 if __name__ == '__main__':
-  # reportImages()
-  scaleImages()
+  prepare_bgs()
