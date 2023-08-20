@@ -49,11 +49,11 @@ def infer(image_path):
 
     if (output_scores[i]>THRESHOLD_VALUE_CONFIDENCE):
       bboxes_single_image.append([xmin, ymin, xmax, ymax, output_scores[i]])
-      cv2.rectangle(image_resized, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
-    elif (output_scores[i]>THRESHOLD_VALUE_CONFIDENCE*.5):
-      cv2.rectangle(image_resized, (xmin, ymin), (xmax, ymax), (0, 255, 255), 2)
+      # cv2.rectangle(image_resized, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
+    # elif (output_scores[i]>THRESHOLD_VALUE_CONFIDENCE*.5):
+      # cv2.rectangle(image_resized, (xmin, ymin), (xmax, ymax), (0, 255, 255), 2)
 
-  image_resized = cv2.resize(image_resized, (500,500))
+  # image_resized = cv2.resize(image_resized, (500,500))
   #cv2_imshow(image_resized)
   return bboxes_single_image
 
