@@ -15,7 +15,7 @@ def visualize_gt(image_key, anno, color='green', alpha=125, font=None):
         print('Falling back to default font...')
         font = ImageFont.load_default()
     
-    with Image.open(os.path.join('images', '{:s}.jpg'.format(image_key))) as img:
+    with Image.open(os.path.join('output','imgs', '{:s}.jpg'.format(image_key))) as img:
         img = img.convert('RGBA')
         img_draw = ImageDraw.Draw(img)
 
@@ -46,7 +46,8 @@ def visualize_gt(image_key, anno, color='green', alpha=125, font=None):
 
 
 if __name__ == '__main__':
-    image_key =  'bqDvJWZ5Wnu21CL2p14Weg'
+    # image_key =  'bqDvJWZ5Wnu21CL2p14Weg'
+    image_key =  '2DO9tT0phIzzzDqwz4eTRA'
 
 	# load the annotation json
     anno = load_annotation(image_key)

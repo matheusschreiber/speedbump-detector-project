@@ -5,26 +5,22 @@ import shutil
 csv_path = os.path.join('output', 'speedbumps.csv')
 imgs_path = os.path.join('output', 'imgs')
 imgs = os.listdir(imgs_path)
+
+new_csv=[]
+
 with open(csv_path) as f:
-    all_lines = csv.reader(f)
+  all_lines = csv.reader(f)
 
-    samples = []
-    for line in all_lines:
-      samples.append(line[1][5:])
+  for line in all_lines:
+    sample = line[1][5:]
+    if sample not in imgs: continue
+    new_csv.append(line)
 
-count=0
-for img in imgs:
-  if img not in samples:
-    count+=1
-    print(img)
-    # os.remove(os.path.join(imgs_path, img))
-  
-print(f"images to delete: {count}")
-
-count=0
-for sample in samples:
-  if sample not in imgs:
-    count+=1
-    print(sample)
-
-print(f"images mising: {count}")
+with open(os.path.join('output','new_speedbumps.csv'),'w') as output_csv:
+  for line in new_csv:
+    string = ""
+    for a in line:
+        if string=="":string=a
+        else: string=string+','+a      
+    string+='\n'    
+    output_csv.write(string)
