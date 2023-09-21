@@ -7,7 +7,7 @@ import csv
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-SPEED_BUMP_THRESHOLD=19
+SPEED_BUMP_THRESHOLD=15
 
 def pascal_voc(out_path, img_out_path, bboxes, nb_imgs_generated):
   annotations_path = os.path.join(out_path, "annotations_pascal_voc")
