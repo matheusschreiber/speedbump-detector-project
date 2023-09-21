@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>IMG_20230318_182130521.jpg</filename>
+	<path>/home/matheus/Documentos/IC/speedbump-detector-project/big-model/evaluation/images/IMG_20230318_182130521.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>1322</width>
+		<height>1755</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>SpeedBumpSign</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>591</xmin>
+			<ymin>712</ymin>
+			<xmax>680</xmax>
+			<ymax>850</ymax>
+		</bndbox>
+	</object>
+</annotation>
