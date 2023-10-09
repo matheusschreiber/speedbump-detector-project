@@ -15,4 +15,4 @@ detectron-python-env/
 output/
 **/ready_dataset
 dataset_global/annotations
-
+dataset_reduced_sign
