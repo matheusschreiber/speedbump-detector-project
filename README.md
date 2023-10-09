@@ -103,29 +103,13 @@ A full log of result quantities is displayed on console.
 
 The tensors of the trained model are described in [here](tensors_details_10k_model.py).
 
-## Best conditions so far
+## Metrics
 
 - Samples: 10.000
 - Epochs: 50
 - Batch size: 8
-- AP (Average Precision): 0.84 (84%)
-- Average training session: 3h
-
-### Metrics
-
-- AP: 0.8392932,
-- AP50: 0.98144597,
-- AP75: 0.9224671,
-- APs: 0.48997566,
-- APm: 0.88548964,
-- APl: 0.95861024,
-- ARmax1: 0.44830018,
-- ARmax10: 0.87536883,
-- ARmax100: 0.88377166,
-- ARs: 0.64464945,
-- ARm: 0.92369145,
-- ARl: 0.9875,
-- AP_SpeedBumpSign: 0.8392932
+- AP (Average Precision): 0.908 (90.8%)
+- Average training session: 3.5h
 
 ## Dataset layout
 
