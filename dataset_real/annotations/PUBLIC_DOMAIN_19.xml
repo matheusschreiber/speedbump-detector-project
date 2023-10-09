@@ -1,0 +1,23 @@
+<annotation>
+    <folder>images</folder>
+    <filename>PUBLIC_DOMAIN_19.jpg</filename>
+    <size>
+        <width>768</width>
+        <height>1024</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>427</xmin>
+            <ymin>291</ymin>
+            <xmax>552</xmax>
+            <ymax>416</ymax>
+        </bndbox>
+    </object>
+</annotation>

@@ -1,0 +1,36 @@
+<annotation>
+    <folder>images</folder>
+    <filename>IMG_20230318_171913477_HDR.jpg</filename>
+    <size>
+        <width>3072</width>
+        <height>4080</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1398</xmin>
+            <ymin>1461</ymin>
+            <xmax>1723</xmax>
+            <ymax>1811</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>423</xmin>
+            <ymin>2346</ymin>
+            <xmax>466</xmax>
+            <ymax>2379</ymax>
+        </bndbox>
+    </object>
+</annotation>

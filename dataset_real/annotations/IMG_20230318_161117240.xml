@@ -1,0 +1,36 @@
+<annotation>
+    <folder>images</folder>
+    <filename>IMG_20230318_161117240.jpg</filename>
+    <size>
+        <width>3072</width>
+        <height>4080</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>2052</xmin>
+            <ymin>2113</ymin>
+            <xmax>2225</xmax>
+            <ymax>2294</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1868</xmin>
+            <ymin>2146</ymin>
+            <xmax>1947</xmax>
+            <ymax>2261</ymax>
+        </bndbox>
+    </object>
+</annotation>

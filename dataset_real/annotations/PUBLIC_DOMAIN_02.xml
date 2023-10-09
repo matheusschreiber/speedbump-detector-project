@@ -1,0 +1,36 @@
+<annotation>
+    <folder>images</folder>
+    <filename>PUBLIC_DOMAIN_02.jpg</filename>
+    <size>
+        <width>1024</width>
+        <height>682</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>637</xmin>
+            <ymin>330</ymin>
+            <xmax>681</xmax>
+            <ymax>395</ymax>
+        </bndbox>
+    </object>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>851</xmin>
+            <ymin>259</ymin>
+            <xmax>1021</xmax>
+            <ymax>491</ymax>
+        </bndbox>
+    </object>
+</annotation>

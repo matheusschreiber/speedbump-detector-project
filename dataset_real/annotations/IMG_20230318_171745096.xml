@@ -1,0 +1,23 @@
+<annotation>
+    <folder>images</folder>
+    <filename>IMG_20230318_171745096.jpg</filename>
+    <size>
+        <width>3072</width>
+        <height>4080</height>
+        <depth>3</depth>
+    </size>
+    <segmented>0</segmented>
+    <object>
+        <name>SpeedBumpSign</name>
+        <pose>Unspecified</pose>
+        <truncated>0</truncated>
+        <occluded>0</occluded>
+        <difficult>0</difficult>
+        <bndbox>
+            <xmin>1128</xmin>
+            <ymin>1986</ymin>
+            <xmax>1340</xmax>
+            <ymax>2306</ymax>
+        </bndbox>
+    </object>
+</annotation>
