@@ -1,6 +1,23 @@
 # Speedbump Detector
 
-This is a neural network envisioned to detect speedbumps signs, ~~with the potential to run it into a mobile environment later on~~ running on mobile devices. 🥳
+This is a neural network envisioned to detect speedbumps signs, hosted in a smartphone environment with restrained resources.
+
+## Demonstration
+
+<table>
+<tr>
+<td><center><img src='output_images/001.png' alt='001' width=400/></center></td>
+<td><center><img src='output_images/002.png' alt='001' width=400/></center></td>
+</tr>
+<tr>
+<td><center>Earlier versions of the app</center></td>
+<td><center>More recent results</center></td>
+</tr>
+</table>
+
+Using the Tensorflow Lite library to train the model, it was possible to generate a real-time response for the speed bump on the streets, to better alert the driver. A video demonstration is presented below:
+
+
 
 ## Dataset
 
@@ -10,7 +27,6 @@ The dataset is built merging templates and COCO (Common Objects in Context) imag
 
 - 600 images on `dog`
 - 600 images on `cat`
-- 600 images on `person`
 - 600 images on `bird`
 - 600 images on `banana`
 - 600 images on `sandwich`
@@ -33,13 +49,9 @@ In order to use the COCO images, is necessary to pre filter them, with scaling t
 
 > [More info about filter process](/dataset_mobile/FILTER.md)
 
-~~In total, was used more than 8.700 images that after filtering generated 4.500 background targets and 10.000 samples.~~
+In total, were used more than 44.200 COCO images which got narrowed down to 44.100 after filtering. That produced 40.000 samples for training.
 
-~~From those, were used 8.000 train samples, 1.000 test samples and 1.000 validation samples.~~
-
-(upgrading to 50.000 samples)
-
-> Is safe to say that this number shrinks from the expected (600x18=10.800) because some classes have overlapping photos (with a cat and a dog on the same photo for example).
+From those, 32.000 were train samples, 4.000 test samples and 4.000 validation samples.
 
 ### Templates
 
@@ -64,12 +76,12 @@ Also:
 #### Other types of signs
 
 - Dimensions: 70x70 pixels
-~~- Color: white/red~~
-~~- Shape: round/octagonal~~
+- Color: vary
+- Shape: vary
 - File: ppm (Portable Pixmap Format)
 - Amount: 119 files
 
-A total of 14 templates from speed bumps where used for this dataset creation, alogside the other types of signs, it sum up to 29 different templates.
+A total of 16 templates from speed bumps where used for this dataset creation, alogside the other types of signs, it sum up to 134 different templates.
 
 ### Generating overlapped images for training
 
@@ -148,3 +160,8 @@ Once the model is trained, is necessary to upload the `.tflite` file into the an
 ```
 
 The model file must be named `mobilenetv1.tflite` in order to match the ML engine used.
+
+
+### Acknowledgement
+
+Credits to [@tabelini](https://github.com/lucastabelini) for providing the [dataset generation script](https://github.com/LCAD-UFES/publications-tabelini-ijcnn-2019), which got adapted for this project. 
