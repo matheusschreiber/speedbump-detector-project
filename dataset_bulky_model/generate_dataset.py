@@ -1,5 +1,5 @@
-import os
 import csv
+import os
 import cv2
 import json
 import math
@@ -11,7 +11,6 @@ import numpy as np
 import imgaug as ia
 from tqdm import tqdm
 import multiprocessing as mp
-from datetime import datetime
 from joblib import Parallel, delayed
 from imgaug import augmenters as iaa
 from matplotlib import pyplot as plt
@@ -19,7 +18,7 @@ from pascal_voc_writer import Writer
 import xml.etree.ElementTree as ET
 from xml.dom import minidom
 
-SPEED_BUMP_THRESHOLD=15 #19
+SPEED_BUMP_THRESHOLD=16 #19
 TRAIN_AMOUNT=.8
 TEST_AMOUNT=.1
 VAL_AMOUNT=.1
@@ -77,7 +76,7 @@ def brightness_transform(template, template_mask, target_region):
     return template, {}
 
 
-def geometric_transform(template, template_mask, x, target_size=(1500,1500), scale=None, prelodaded_data=None):
+def geometric_transform(template, template_mask, x, target_size=(1500, 1500), scale=None, prelodaded_data=None):
     data = {}
     rows, cols, _ = template.shape
     x -= int(round(target_size[1] / 2))
@@ -121,8 +120,8 @@ def geometric_transform(template, template_mask, x, target_size=(1500,1500), sca
     # scale
     if prelodaded_data is None:
         if scale is None:
-            #scale_factor = (.5 + relative_x) * (min(template.shape[0], template.shape[1])) / 100.0
-            scale_factor = (.175 + relative_x) * (min(template.shape[0], template.shape[1])) / 100.0
+            scale_factor = (.5 + relative_x) * (min(template.shape[0], template.shape[1])) / 200.0
+
         else:
             scale_factor = scale
     else:
@@ -157,6 +156,7 @@ def blend(template, template_mask, target_image, target_bbox, steps=3):
     blended = (target_image[y0:y1, x0:x1] * (1 - blend_mask)) + (template[:, :, [0, 1, 2]] * blend_mask)
 
     return blended.astype(np.float32) / 255.0
+
 
 def get_random_position(probabilities_vector, positions_list, img_size=(2048, 2048), sample_size=1):
     positions = np.random.choice(
@@ -235,11 +235,7 @@ def process_img(target, template, template_mask, probabilities_vector, positions
     x1 = x0 + template_w
     y1 = y0 + template_h
 
-    # print(f"[DEBUG] img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
-
-    if (x1 >= target_w and position_is_centered) or (y1 >= target_h and position_is_centered):
-        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Position doesn't fit the template img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
-        # print(f"[DEBUG] Position doesn't fit the template img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
+    if x1 >= target_w and position_is_centered or y1 >= target_h and position_is_centered:
         return target, None, scale, data
     if x1 >= target_w:
         diff = x1 - target_w + 1
@@ -263,13 +259,9 @@ def process_img(target, template, template_mask, probabilities_vector, positions
     y1 = y0 + template.shape[0]
 
     if bboxes is not None and has_intersection(x0, y0, x1, y1, bboxes):
-        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Template intersection img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
-        # print(f"[DEBUG] Template intersection img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
         return target, None, scale, data
 
     if x0 < 0 or y0 < 0 or x1 >= target_w or y1 >= target_h:
-        # print(f"[DEBUG - {datetime.now().strftime('%H:%M:%S')}] Template out of bounds img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
-        # print(f"[DEBUG] Template out of bounds img.shape={target.shape} coords={[x0, y0, x1, y1]}, bboxes={bboxes}")
         return target, None, scale, data
 
     template = blend(template, template_mask, target, {
@@ -288,12 +280,14 @@ def process_img(target, template, template_mask, probabilities_vector, positions
         'ymax': y1
     }, scale, data
 
+
 def get_mask_from_image(alpha_image):
     alpha_channel = alpha_image[:, :, -1]
     mask = np.zeros_like(alpha_image[:, :, :])
     mask[:, :, 0][alpha_channel > 0] = 1
     mask[:, :, 1][alpha_channel > 0] = 1
     mask[:, :, 2][alpha_channel > 0] = 1
+
     return mask
 
 
@@ -307,39 +301,30 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
                     load_path, out_path):
     np.random.seed(None)
     img_path = os.path.join(targets_path, img_name)
-    # try:
-    target = cv2.imread(img_path)
-    crop_width = int(target.shape[1]/2)
-    crop_height = int(target.shape[0]/2)
-    frame = int(1500/2)
-    target = target[crop_height-frame:crop_height+frame, crop_width-frame:crop_width+frame]
-    target = cv2.resize(target, (1500,1500))
-    target = target.astype(np.float32) / 255.0
-    # except:
-    #     print('Error with:', img_path)
-    #     return
+    try:
+        target = cv2.imread(img_path).astype(np.float32) / 255.0
+    except:
+        print('Error with:', img_path)
+        return
     if load_path is None:
         image_data = {
             'bbox_data': []
         }
-        nb_signs_in_img = np.random.randint(1, 5) + 1
+        nb_signs_in_img = np.random.randint(1, 5 + 1)
         total = 0
         target, add_value, multiply_value = augment_target(target)
         image_data['add_value'] = add_value
         image_data['multiply_value'] = multiply_value
         bboxes = []
+        # template_ids_selected = np.random.choice(list(range(len(templates))), size=nb_signs_in_img, replace=False)
         
         sb_template_ids_selected = np.random.choice(list(range(SPEED_BUMP_THRESHOLD)), size=1, replace=False)
         template_ids_selected = np.random.choice(list(range(SPEED_BUMP_THRESHOLD,len(templates))), size=nb_signs_in_img-1, replace=False)
         template_ids_selected = list(template_ids_selected) + list(sb_template_ids_selected)
+
         image_data['template_ids'] = template_ids_selected
         scale = None
-        # countinTries=0
         while total < nb_signs_in_img:
-            # now = datetime.now()
-            # np.random.seed((int)(now.strftime("%S")))
-            # countinTries+=1
-            # if countinTries%100==0: print(f'try{countinTries} {nb_signs_in_img}')
             template = templates[template_ids_selected[total]][0]
             template_mask = templates[template_ids_selected[total]][1]
             template_category = templates[template_ids_selected[total]][2]
@@ -355,27 +340,27 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
                     'data': data
                 })
                 total += 1
-            # probs = [0.4, 0.5]
-            # while len(probs) > 0:
-            #     do_place_below = np.random.choice([True, False], p=[probs[0], 1 - probs[0]]) and total < nb_signs_in_img
-            #     if not (do_place_below and total < nb_signs_in_img and bbox):
-            #         break
-            #     probs = probs[1:]
-            #     position = (bbox['xmin'], bbox['ymax'])
-            #     template = templates[template_ids_selected[total]][0]
-            #     template_mask = templates[template_ids_selected[total]][1]
-            #     template_category = templates[template_ids_selected[total]][2]
-            #     target, bbox, scale, data = process_img(
-            #         target.copy(), template, template_mask, probabilities_vector, positions_list, multiply_value,
-            #         position, bboxes, scale=scale)
-            #     if bbox:
-            #         bbox['category'] = template_category
-            #         bboxes.append(bbox)
-            #         image_data['bbox_data'].append({
-            #             'bbox': bbox,
-            #             'data': data
-            #         })
-            #         total += 1
+            probs = [0.4, 0.5]
+            while len(probs) > 0:
+                do_place_below = np.random.choice([True, False], p=[probs[0], 1 - probs[0]]) and total < nb_signs_in_img
+                if not (do_place_below and total < nb_signs_in_img and bbox):
+                    break
+                probs = probs[1:]
+                position = (bbox['xmin'], bbox['ymax'])
+                template = templates[template_ids_selected[total]][0]
+                template_mask = templates[template_ids_selected[total]][1]
+                template_category = templates[template_ids_selected[total]][2]
+                target, bbox, scale, data = process_img(
+                    target.copy(), template, template_mask, probabilities_vector, positions_list, multiply_value,
+                    position, bboxes, scale=scale)
+                if bbox:
+                    bbox['category'] = template_category
+                    bboxes.append(bbox)
+                    image_data['bbox_data'].append({
+                        'bbox': bbox,
+                        'data': data
+                    })
+                    total += 1
 
         blur_value = float(np.random.uniform(0, 7)) * scale
         image_data['blur_value'] = blur_value
@@ -400,9 +385,12 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
 
         blur_value = image_data['blur_value']
     
-    #blur_effect = iaa.Sequential([iaa.GaussianBlur(blur_value)]).to_deterministic()
+    #blur_effect = iaa.Sequential([iaa.GaussianBlur(blur_value, deterministic=True)])
     #target = blur_effect.augment_image(target)
-    
+
+    #blur_effect = iaa.Sequential([iaa.GaussianBlur(blur_value)]).to_deterministic()
+    #target = blur_effect.augment_image(target) 
+
     img_out_path = os.path.join(images_out_path, "{:05d}_{}.jpg".format(nb_imgs_generated,
                                                                         os.path.splitext(img_name)[0]))
     
@@ -412,10 +400,9 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
     binary_annotation_lines = []
     multiclass_annotation_lines = []
     for bbox in bboxes:
-        # img = cv2.imread(img_path)
         binary_line = f"{img_out_path},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},SpeedBumpSign"        
-        # multiclass_line = f"{img_out_path},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},{bbox['category']}"        
         multiclass_line = f"{img_out_path},{bbox['category']},{bbox['xmin']/target.shape[1]:.4f},{bbox['ymin']/target.shape[0]:.4f},,,{bbox['xmax']/target.shape[1]:.4f},{bbox['ymax']/target.shape[0]:.4f},,"        
+
         binary_annotation_lines.append(binary_line)
         multiclass_annotation_lines.append(multiclass_line)
 
@@ -424,7 +411,6 @@ def generate_sample(targets_path, img_name, templates, probabilities_vector, pos
 
     with open(os.path.join(data_out_path, "{:05d}.pkl".format(nb_imgs_generated)), "wb") as data_out_f:
         pickle.dump(image_data, data_out_f)
-
 
 def pascal_voc(out_path, img_name, img_out_path, bboxes, nb_imgs_generated):
     annotations_path = os.path.join(out_path, "annotations_pascal_voc")
@@ -560,7 +546,6 @@ def split(out_path):
 
     speed_bumps_csv.close()
 
-
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Generate a data set with templates.')
@@ -579,7 +564,6 @@ def parse_args():
 
 
 if __name__ == '__main__':
-
     args = parse_args()
     
     if os.path.isdir(args.out_path): shutil.rmtree(args.out_path)
@@ -595,7 +579,7 @@ if __name__ == '__main__':
     # shutil.copyfile(os.path.realpath(__file__), os.path.join(args.out_path, 'generate_dataset.py'))
 
     all_img_names = os.listdir(targets_path)
-    probabilities_vector = hc_probabilties_vector((1500,1500))
+    probabilities_vector = hc_probabilties_vector((1500, 1500))
     positions_list = np.arange(0, probabilities_vector.size)
 
     template_names = os.listdir(templates_path)
