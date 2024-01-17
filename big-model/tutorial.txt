@@ -1,0 +1,34 @@
+passo a passo para treinar
+
+1- limpar o diretorio data, deixando apenas as images e as annotations (pastas com esses nomes), os scripts em python, os arquivos relacionados ao ssd
+
+2- limpe tambem a pasta training
+
+3- rodar o script splitannotations, vai criar os csvs
+
+4- rodar o script create_labels, vai criar o label map
+
+5- criar os arquivos .record
+python3 ../generate_tfrecord.py test_labels.csv label_map.pbtxt images test.record
+python3 ../generate_tfrecord.py train_labels.csv label_map.pbtxt images train.record
+
+
+6- treinar 
+(diretorio: models/research/object_detection)
+python3 model_main_tf2.py --pipeline_config_path=/home/matheus/Documentos/big-model/data/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.config --model_dir=/home/matheus/Documentos/big-model/training --alsologtostderr
+
+
+apos treinar para avaliar basta fazer:
+
+exportando inference graph (diretorio /models/research/object_detection
+1-python3 exporter_main_v2.py --trained_checkpoint_dir=/home/matheus/Documentos/big-model/training --pipeline_config_path=/home/matheus/Documentos/big-model/data/ssd_mobilenet_v2_fpnlite_320x320_coco17_tpu-8.config --output_directory /home/matheus/Documentos/big-model/data/inference_graph
+
+2-usando dataset de teste:
+
+2.1-coloca uma pasta que tenha os seguintes conteudos: iamges/ annotations/ e evaluation.py split_annotations.py 
+
+2.2-roda o split_annotations.py
+
+2.3-move alguns dos xml de treino para teste se quiser
+
+2.4-roda o evaluate

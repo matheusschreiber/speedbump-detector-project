@@ -244,4 +244,4 @@ def evaluate():
 
 if __name__ == "__main__":
     convert_files_to_csv()
-    # evaluate()
+    evaluate()
