@@ -6,16 +6,18 @@ This is a neural network envisioned to detect speedbumps signs, hosted in a smar
 
 <table>
 <tr>
-<td><center><img src='output_images/001.png' alt='001' width=400/></center></td>
-<td><center><img src='output_images/002.png' alt='001' width=400/></center></td>
+<td><img src='output_images/001.png' alt='001' width=400/></td>
+<td><img src='output_images/002.png' alt='001' width=400/></td>
 </tr>
 <tr>
-<td><center>Earlier versions of the app</center></td>
-<td><center>More recent results</center></td>
+<td>Earlier versions of the app</td>
+<td>More recent results</td>
 </tr>
 </table>
 
 Using the Tensorflow Lite library to train the model, it was possible to generate a real-time response for the speed bump on the streets, to better alert the driver. A video demonstration is presented below:
+
+[![Watch on Youtube](https://img.youtube.com/vi/RBKqtdzmBTY/maxresdefault.jpg)](https://youtu.be/RBKqtdzmBTY)
 
 
 
