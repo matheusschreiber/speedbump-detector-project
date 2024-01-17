@@ -27,23 +27,23 @@ Using the Tensorflow Lite library to train the model, it was possible to generat
 
 The dataset is built merging templates and COCO (Common Objects in Context) images on these topics:
 
-- 600 images on `dog`
-- 600 images on `cat`
-- 600 images on `bird`
-- 600 images on `banana`
-- 600 images on `sandwich`
-- 600 images on `carrot`
-- 600 images on `orange`
-- 600 images on `apple`
-- 600 images on `pizza`
-- 600 images on `hot dog`
-- 600 images on `donut`
-- 600 images on `cake`
-- 600 images on `chair`
-- 600 images on `dining table`
-- 600 images on `toilet`
-- 600 images on `bed`
-- 600 images on `couch`
+- `dog`
+- `cat`
+- `bird`
+- `banana`
+- `sandwich`
+- `carrot`
+- `orange`
+- `apple`
+- `pizza`
+- `hot dog`
+- `donut`
+- `cake`
+- `chair`
+- `dining table`
+- `toilet`
+- `bed`
+- `couch`
 
 > [Instructions on how to use the script on COCO](/script_coco/COCO_GETTING_STARTED.md)
 
